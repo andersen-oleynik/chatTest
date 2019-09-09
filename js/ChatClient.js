@@ -1,5 +1,5 @@
 class ChatClient {
-  constructor(dispatchMessage) {
+  constructor(socketApi) {
     this.messagesList = document.getElementById("chat-messages");
     this.messageForm = document.getElementById("chat-form");
 
@@ -10,14 +10,14 @@ class ChatClient {
 
     this.messageForm.addEventListener("submit", e => e.preventDefault(), false);
     this.sendMsgButton.addEventListener("click", this.sendMessage);
-    this.dispatchMessage = dispatchMessage;
+    this.socketApi = socketApi;
   }
 
   sendMessage = () => {
     const message = this.messageInput.value;
     const username = this.usernameInput.value;
     if (username && message) {
-      this.dispatchMessage(username, message);
+      this.socketApi.sendMessage(username, message);
       this.clearMessageInput();
     } else {
       this.messageInput.focus();
@@ -30,12 +30,12 @@ class ChatClient {
     messageNode.textContent = `${user}: ${message}`;
     messageNode.classList.add(`chat-message${fromCurrentUser && "-my"}`);
     this.messagesList.appendChild(messageNode);
-    this.scrollToLastMessage();
+    this.scrollToBottom();
   };
 
   clearMessageInput = () => (this.messageInput.value = "");
 
-  scrollToLastMessage = () => {
+  scrollToBottom = () => {
     this.messagesList.scrollTop = this.messagesList.scrollHeight;
   };
 }
