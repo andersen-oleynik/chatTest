@@ -28,7 +28,9 @@ class ChatClient {
     const messageNode = document.createElement("div");
     const fromCurrentUser = user === this.usernameInput.value;
     messageNode.textContent = `${user}: ${message}`;
-    messageNode.classList.add(`chat-message${fromCurrentUser && "-my"}`);
+    messageNode.classList.add(
+      fromCurrentUser ? "chat-message-own" : "chat-message"
+    );
     this.messagesList.appendChild(messageNode);
     this.scrollToBottom();
   };
